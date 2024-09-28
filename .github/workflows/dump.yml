@@ -1,6 +1,10 @@
 name: Update Master List
 
 on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - "*.ml"
   schedule:
     - cron:  '0 0 * * 1'
   
