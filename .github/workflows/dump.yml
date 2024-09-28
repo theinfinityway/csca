@@ -1,0 +1,27 @@
+name: Update Master List
+
+on:
+  schedule:
+    - cron:  '0 0 * * 1'
+  
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download masterlist
+        run : wget "https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/ElekAusweise/CSCA/GermanMasterList.zip?__blob=publicationFile" -O- | zcat > masterlist.ml
+      
+      - name: Commit new masterList
+        run: |
+          set +e
+          git add masterlist.ml -f
+          git config user.name "$(git --no-pager log --format=format:'%an' -n 1)"
+          git config user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
+          git commit -m "Update masterList"
+          git push "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY"
