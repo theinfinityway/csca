@@ -18,13 +18,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download masterlist
+      - name: Download masterlist (Germany)
         run : wget "https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/ElekAusweise/CSCA/GermanMasterList.zip?__blob=publicationFile" -O- | zcat > masterlist.ml
+
+      - name: Download masterlist (Dutch)
+        run : wget "https://www.npkd.nl/files/ml/NL_MASTERLIST.mls"
       
       - name: Commit new masterList
         run: |
           set +e
-          git add masterlist.ml -f
+          git add masterlist.ml NL_MASTERLIST.mls -f
           git config user.name "$(git --no-pager log --format=format:'%an' -n 1)"
           git config user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
           git commit -m "Update masterList"
