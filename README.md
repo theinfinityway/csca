@@ -1,5 +1,5 @@
 # csca
 
-An official data dump of BSI CSCA masterlist
+An official data dump of BSI and Dutch NPKD masterlists
 
 Updates every week
